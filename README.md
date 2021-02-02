@@ -1,5 +1,9 @@
 # Laravel Helpers
- 
+
+```php
+use Pharaonic\Laravel\Helpers\...
+```
+
 ## Traits
 ##### HasCustomAttribtues (Getter, Setter)
 ##### HasHashedPassword   (User Creating, Updating password)
