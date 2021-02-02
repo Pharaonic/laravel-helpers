@@ -36,7 +36,7 @@ class ExceptionHandler extends Handler
      *
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, $exception)
     {
         if ($request->expectsJson() && get_class($exception) != AuthenticationException::class) return json(false, $exception->getMessage(), (object) [
             'line'  => $exception->getLine(),
