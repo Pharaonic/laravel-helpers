@@ -22,7 +22,10 @@
     "autoload": {
         "psr-4": {
             "Pharaonic\\Laravel\\Helpers\\": "src"
-        }
+        },
+        "files": [
+            "src/Helpers.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true
