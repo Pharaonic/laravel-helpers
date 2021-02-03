@@ -38,10 +38,15 @@ class ExceptionHandler extends Handler
      */
     public function render($request, $exception)
     {
-        if ($request->expectsJson() && get_class($exception) != AuthenticationException::class) return json(false, $exception->getMessage(), (object) [
+        $message = $exception->getMessage();
+        $data       = app()->environment('local', 'staging') ? (object) [
             'line'  => $exception->getLine(),
-            'file'  => $exception->getFile()
-        ]);
+            'file'  => $exception->getFile(),
+            'track' => $exception->getTrace()
+        ] : 'Production Environment';
+
+        if ($request->expectsJson() && get_class($exception) != AuthenticationException::class)
+            return json(false, $exception->getStatusCode() . (!empty($message) ? ' : ' . $message : null), $data);
 
         return parent::render($request, $exception);
     }
