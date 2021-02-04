@@ -11,6 +11,7 @@ use Pharaonic\Laravel\Helpers\...
 -------
 ## Classes
 ##### ExceptionHandler
+##### FormRequest
 -------
 ## Functions
 ```php
