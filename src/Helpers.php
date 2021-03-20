@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Validator;
  * @param boolean $success
  * @param null|string $message
  * @param null|string|array|object $data
- * @param array $extra
+ * @param null|array $extra
  * @param null|array $errors
  * @param integer $status
  * @param array $headers
  * @param integer $options
  * @return \Illuminate\Http\JsonResponse
  */
-function json(bool $success, string $message = null, $data = null, $extra = [], array $errors = null, $status = 200, array $headers = null, $options = 0)
+function json(bool $success, string $message = null, $data = null, array $extra = null, array $errors = null, $status = 200, array $headers = null, $options = 0)
 {
     // Casting Errors to Array of Objects
     if ($errors) {
@@ -37,7 +37,7 @@ function json(bool $success, string $message = null, $data = null, $extra = [], 
         'message'   => $message,
         'errors'    => $errors,
         'data'      => $data
-    ] + $extra, $status, $headers ?? [], $options);
+    ] + ($extra ?? []), $status, $headers ?? [], $options);
 }
 
 /**
@@ -57,6 +57,7 @@ function validate(Request $request, array $rules, string $defaultMessage = null,
     if ($validator->fails()) {
         if ($request->expectsJson()) {
             // JSON Request
+
             return json(false, $defaultMessage, null, null, $validator->errors()->toArray());
         } else {
             // Web Request
