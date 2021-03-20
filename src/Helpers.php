@@ -57,7 +57,6 @@ function validate(Request $request, array $rules, string $defaultMessage = null,
     if ($validator->fails()) {
         if ($request->expectsJson()) {
             // JSON Request
-
             return json(false, $defaultMessage, null, null, $validator->errors()->toArray());
         } else {
             // Web Request
