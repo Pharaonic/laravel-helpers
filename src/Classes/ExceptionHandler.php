@@ -46,7 +46,7 @@ class ExceptionHandler extends Handler
         ] : 'Production Environment';
 
         if ($request->expectsJson() && get_class($exception) != AuthenticationException::class)
-            return json(false, $exception->getStatusCode() . (!empty($message) ? ' : ' . $message : null), $data);
+            return json(false, (method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() . (!empty($message) ? ' : ' : null) : null) . ($message ?? null), $data);
 
         return parent::render($request, $exception);
     }
