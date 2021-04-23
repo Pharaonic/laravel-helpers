@@ -52,7 +52,7 @@ function json(bool $success, string $message = null, $data = null, array $extra 
  */
 function validate(Request $request, array $rules, string $defaultMessage = null, array $messages = null, array $fields = null, bool $redirectToRoute = false, string $redirectTo = null, array $redirectParams = null)
 {
-    $validator = Validator::make($request->only(array_keys($rules)), $rules, $messages ?? [], $fields ?? []);
+    $validator = Validator::make($request->all(), $rules, $messages ?? [], $fields ?? []);
 
     if ($validator->fails()) {
         if ($request->expectsJson()) {
