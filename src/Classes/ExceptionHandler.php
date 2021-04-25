@@ -1,7 +1,9 @@
 <?php
+
 namespace Pharaonic\Laravel\Helpers\Classes;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -38,14 +40,17 @@ class ExceptionHandler extends Handler
      */
     public function render($request, $exception)
     {
-        $message = $exception->getMessage();
+        $cls        = get_class($exception);
+        if ($cls == ModelNotFoundException::class) return json(false, 'Not Found', null, null, null, 404);
+
+        $message    = $cls == ModelNotFoundException::class ? '' : $exception->getMessage();
         $data       = app()->environment('local', 'staging') ? (object) [
             'line'  => $exception->getLine(),
             'file'  => $exception->getFile(),
             'track' => $exception->getTrace()
         ] : 'Production Environment';
 
-        if ($request->expectsJson() && get_class($exception) != AuthenticationException::class)
+        if ($request->expectsJson() && $cls != AuthenticationException::class)
             return json(false, (method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() . (!empty($message) ? ' : ' : null) : null) . ($message ?? null), $data);
 
         return parent::render($request, $exception);
