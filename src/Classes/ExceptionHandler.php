@@ -41,7 +41,7 @@ class ExceptionHandler extends Handler
     public function render($request, $exception)
     {
         $cls        = get_class($exception);
-        if ($cls == ModelNotFoundException::class) return json(false, 'Not Found', null, null, null, 404);
+        if ($request->expectsJson() && $cls == ModelNotFoundException::class) return json(false, 'Not Found', null, null, null, 404);
 
         $message    = $cls == ModelNotFoundException::class ? '' : $exception->getMessage();
         $data       = app()->environment('local', 'staging') ? (object) [
