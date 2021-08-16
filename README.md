@@ -14,8 +14,6 @@ use Pharaonic\Laravel\Helpers\...
 
 ##### HasCustomAttribtues (Getter, Setter)
 
-##### HasHashedPassword (User Creating, Updating password)
-
 ##### HasUuidKey (id > UUID)
 
 <br><hr><br>
